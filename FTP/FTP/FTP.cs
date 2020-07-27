@@ -31,7 +31,7 @@ namespace FTP
         private String user;  // 用户名
         private String passwd;  // 用户密码
 
-        private const String separator = "\r\n";  // 分隔符
+        private readonly String separator = "\r\n";  // 分隔符
 
         private readonly String newLine = Environment.NewLine;  // 系统默认换行符
 
@@ -121,6 +121,16 @@ namespace FTP
         }
 
         /// <summary>
+        /// 通过命令输入流发送命令到FTP服务器
+        /// </summary>
+        /// <param name="cmd">构造的命令</param>
+        private void SendCommand(String cmd)
+        {
+            cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
+            cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+        }
+
+        /// <summary>
         /// 登录到FTP服务器，初始化必要的控件和命令端口输入输出流；
         /// 或者使部分控件不可使用，断开命令端口的连接
         /// </summary>
@@ -143,14 +153,12 @@ namespace FTP
 
                 cmd = "USER " + user + separator;
                 //LogToUI(cmd);
-                cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
-                cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+                SendCommand(cmd);
                 ShowStatus();
 
                 cmd = "PASS " + passwd + separator;
                 //LogToUI(cmd);
-                cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
-                cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+                SendCommand(cmd);
                 String response = ShowStatus();
 
                 if (response.StartsWith("530")) throw new InvalidOperationException("账号或密码不正确, 请重新输入");
@@ -205,8 +213,7 @@ namespace FTP
                 btnConnect.Enabled = false;
 
                 cmd = "QUIT" + separator;
-                cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
-                cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+                SendCommand(cmd);
                 ShowStatus();
 
                 cmdSr.Close();
@@ -227,8 +234,7 @@ namespace FTP
         private void OpenDataSocket(int sendTimeOut=3000, int receiveTimeOut=3000)
         {
             cmd = "PASV" + separator;
-            cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
-            cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+            SendCommand(cmd);
             String ret = ShowStatus();
 
             if (ret.StartsWith("227"))
@@ -266,8 +272,7 @@ namespace FTP
             if (dataSw != null) dataSw.Close();
 
             cmd = "ABOR" + separator;
-            cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
-            cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+            SendCommand(cmd);
             ShowStatus();
         }
 
