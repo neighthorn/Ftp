@@ -276,11 +276,283 @@ namespace FTP
             ShowStatus();
         }
 
-        private void BtnUpload_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 获取本地文件大小，不存在返回-1
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns></returns>
+        private long GetLocalFileSize(string filePath)
         {
+            FileInfo fileInfo = null;
+            try
+            {
+                fileInfo = new FileInfo(filePath);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
+            if (fileInfo == null || !fileInfo.Exists)
+                return -1;
+            else
+                return fileInfo.Length;
         }
 
+        /// <summary>
+        /// 获取FTP文件大小，不存在返回-1
+        /// </summary>
+        /// <param name="fileName">文件名称</param>
+        /// <returns></returns>
+        private long GetFtpFileSize(string fileName)
+        {
+            cmd = "SIZE " + fileName + separator;
+            SendCommand(cmd);
+            string ret = ShowStatus();
+
+            //响应码正确
+            if (ret.StartsWith("213"))
+            {
+                return Int64.Parse(ret.Substring(4));
+            }
+            else//响应码错误
+                return -1;
+        }
+
+        /// <summary>
+        /// 上传单个文件
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="breakPoint">设置断点，到断点停止上传</param>
+        private string UploadFile(string fileName, string filePath, int  breakPoint = -1)
+        {
+            OpenDataSocket();//发送时间待定
+
+            long fileSizeInFtp = GetFtpFileSize(fileName);
+            long fileSize = GetLocalFileSize(filePath);
+
+            if (fileSizeInFtp == -1)//如果文件还未被上传则直接上传
+            {
+                cmd = "STOR " + fileName + separator;
+                SendCommand(cmd);
+                string ret = ShowStatus();
+
+                using(FileStream f=new FileStream(filePath, FileMode.Open))
+                {
+                    byte[] fbytes = new byte[1030];
+                    int sum = 0;//记录已读取的文件字节数
+                    int cnt = 0;//记录一次读取的文件字节数
+
+                    while ((cnt=f.Read(fbytes, 0, 1024))!=0)
+                    {
+                        if (breakPoint != -1 && sum + cnt > breakPoint)
+                        {
+                            dataSw.Write(fbytes, 0, breakPoint-sum);
+                            ShowStatus();
+                            CloseDataSocket();
+                            return "BreakPoint: " + breakPoint.ToString();
+                        }
+                        else
+                        {
+                            if (cnt == 1024)
+                                dataSw.Write(fbytes, 0, cnt);
+                            else
+                            {
+                                dataSw.Write(fbytes, 0, cnt);
+                                break;
+                            }
+                            sum += cnt;
+                        }
+                    }
+                }
+                CloseDataSocket();
+                return "Finished";
+            }
+            else if (fileSizeInFtp < fileSize)//判断是否需要从断点上传
+            {
+                CloseDataSocket();
+                UploadFromBreak(fileName, filePath, (int)fileSizeInFtp);
+                return "Finished.";
+            }
+            else
+            {
+                CloseDataSocket();
+                return fileName + "has already existed.";
+            }
+        }
+
+        /// <summary>
+        /// 下载单个文件
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="breakPoint">设置断点，到断点停止下载</param>
+        private string DownloadFile(string fileName, string filePath, int breakPoint = -1)
+        {
+            OpenDataSocket();//发送时间待定
+
+            long fileSize = GetFtpFileSize(fileName);
+            long fileSizeInLocal = GetLocalFileSize(filePath);
+
+            if (fileSizeInLocal == -1)//如果本地不存在文件
+            {
+                cmd = "RETR " + fileName + separator;
+                SendCommand(cmd);
+                string ret = ShowStatus();
+
+                using(FileStream f=new FileStream(filePath, FileMode.Create))
+                {
+                    byte[] fbytes = new byte[1030];
+                    int sum = 0;//记录已读取的字节数
+                    int cnt = 0;//记录一次读取的字节数
+
+                    while((cnt=dataSw.Read(fbytes, 0, 1024)) != 0)
+                    {
+                        if (breakPoint != -1 && sum + cnt > breakPoint)
+                        {
+                            f.Write(fbytes, 0, breakPoint - sum);
+                            ShowStatus();
+                            CloseDataSocket();
+                            return "BreakPoint: " + breakPoint.ToString();
+                        }
+                        else
+                        {
+                            f.Write(fbytes, 0, cnt);
+                            sum += cnt;
+                        }
+                    }
+                }
+                CloseDataSocket();
+                return "Finished";
+            }
+            else if (fileSizeInLocal < fileSize)//考虑从断点下载
+            {
+                CloseDataSocket();
+                DownloadFromBreak(fileName, filePath, (int)fileSizeInLocal);
+                return "Finished";
+            }
+            else
+            {
+                CloseDataSocket();
+                return fileName + "has already existed.";
+            }
+        }
+
+        /// <summary>
+        /// 断点续传上传文件
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="breakPoint">断点</param>
+        private string UploadFromBreak(string fileName, string filePath, int breakPoint)
+        {
+            OpenDataSocket();//发送时间待定
+
+            //申请断点续传
+            cmd = "REST " + breakPoint.ToString() + separator;
+            SendCommand(cmd);
+            ShowStatus();
+
+            //申请上传文件
+            cmd = "STOR " + fileName + separator;
+            SendCommand(cmd);
+            ShowStatus();
+
+            using(FileStream f=new FileStream(filePath, FileMode.Open))
+            {
+                f.Seek(breakPoint, SeekOrigin.Begin);
+
+                byte[] fbytes = new byte[1030];
+                int cnt;
+                while((cnt=f.Read(fbytes, 0, 1024)) != 0)
+                {
+                    if (cnt == 1024)
+                        dataSw.Write(fbytes, 0, cnt);
+                    else
+                    {
+                        dataSw.Write(fbytes, 0, cnt);
+                        break;
+                    }
+                }
+            }
+            CloseDataSocket();
+            return "Finished.";
+        }
+
+        /// <summary>
+        /// 断点续传下载文件
+        /// </summary>
+        /// <param name="fileName">文件名</param>
+        /// <param name="filePath">文件路径</param>
+        /// <param name="breakPoint">断点</param>
+        private string DownloadFromBreak(string fileName, string filePath, int breakPoint)
+        {
+            OpenDataSocket();//发送时间待定
+
+            cmd = "REST " + breakPoint.ToString() + separator;
+            SendCommand(cmd);
+            ShowStatus();
+
+            cmd = "RETR " + fileName + separator;
+            SendCommand(cmd);
+            ShowStatus();
+
+            using(FileStream f=new FileStream(filePath, FileMode.Open))
+            {
+                byte[] fbytes = new byte[1030];
+                f.Seek(breakPoint, SeekOrigin.Begin);
+
+                int cnt;
+                while((cnt=dataSw.Read(fbytes, 0, 1024)) != 0)
+                {
+                    f.Write(fbytes, 0, cnt);
+                }
+            }
+            CloseDataSocket();
+            return "Finished.";
+        }
+
+        /// <summary>
+        /// 上传文件按钮，可上传多个文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnUpload_Click(object sender, EventArgs e)
+        {
+            string[] fileName=new string[2];
+            string[] filePath=new string[2];
+
+            //断点设置，用于断点续传的测试，-1为默认值表示没有断点
+            int breakFileNum = -1;//第几个文件作为断点文件
+            int breakPoint = -1;//断点设置
+
+            fileName[0] = "test.txt";
+            fileName[1] = "test.docx";
+
+            filePath[0] = "C:\\Users\\Azura\\Desktop\\ftpserver\\test.txt";
+            filePath[1] = "C:\\Users\\Azura\\Desktop\\ftpserver\\test.docx";
+
+            if (breakFileNum == -1)
+            {
+                for (int i = 0; i < fileName.Length; i++)
+                    UploadFile(fileName[i], filePath[i]);
+            }
+            else
+            {
+                for (int i = 0; i < breakFileNum; i++)
+                    UploadFile(fileName[i], filePath[i]);
+                UploadFile(fileName[breakFileNum], filePath[breakFileNum], breakPoint);
+                for (int i = breakFileNum; i < fileName.Length; i++)
+                    UploadFile(fileName[i], filePath[i]);
+            }
+        }
+
+        /// <summary>
+        /// 下载文件按钮，可下载多个文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnDownload_Click(object sender, EventArgs e)
         {
 
