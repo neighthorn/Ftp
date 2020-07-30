@@ -53,17 +53,19 @@
             this.lblStatus = new System.Windows.Forms.Label();
             this.lsvRemote = new System.Windows.Forms.ListView();
             this.cmsRemote = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.下载toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.刷新toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.删除toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.lsvLocal = new System.Windows.Forms.ListView();
             this.cmsLocal = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.上传ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.打开ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.创建目录ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.创建目录并进入ToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.刷新ToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.删除ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.重命名ToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
             this.lsbStatus = new System.Windows.Forms.ListBox();
             this.lblLocal = new System.Windows.Forms.Label();
             this.pnlConnect = new System.Windows.Forms.Panel();
@@ -74,13 +76,6 @@
             this.txbUser = new System.Windows.Forms.TextBox();
             this.lblUser = new System.Windows.Forms.Label();
             this.lblPasswd = new System.Windows.Forms.Label();
-            this.下载toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.创建目录toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.创建目录并进入toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.刷新toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.删除toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.pnlBody.SuspendLayout();
@@ -385,13 +380,49 @@
             this.cmsRemote.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.下载toolStripMenuItem1,
             this.toolStripSeparator3,
-            this.创建目录toolStripMenuItem2,
-            this.创建目录并进入toolStripMenuItem3,
             this.刷新toolStripMenuItem4,
             this.toolStripSeparator4,
             this.删除toolStripMenuItem5});
             this.cmsRemote.Name = "cmsRemote";
-            this.cmsRemote.Size = new System.Drawing.Size(256, 174);
+            this.cmsRemote.Size = new System.Drawing.Size(215, 122);
+            // 
+            // 下载toolStripMenuItem1
+            // 
+            this.下载toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("下载toolStripMenuItem1.Image")));
+            this.下载toolStripMenuItem1.Name = "下载toolStripMenuItem1";
+            this.下载toolStripMenuItem1.ShortcutKeyDisplayString = "(Alt + D)";
+            this.下载toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+            this.下载toolStripMenuItem1.Size = new System.Drawing.Size(255, 26);
+            this.下载toolStripMenuItem1.Text = "下载";
+            this.下载toolStripMenuItem1.Click += new System.EventHandler(this.下载toolStripMenuItem1_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
+            // 
+            // 刷新toolStripMenuItem4
+            // 
+            this.刷新toolStripMenuItem4.Name = "刷新toolStripMenuItem4";
+            this.刷新toolStripMenuItem4.ShortcutKeyDisplayString = "(Alt + F)";
+            this.刷新toolStripMenuItem4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
+            this.刷新toolStripMenuItem4.Size = new System.Drawing.Size(214, 26);
+            this.刷新toolStripMenuItem4.Text = "刷新";
+            this.刷新toolStripMenuItem4.Click += new System.EventHandler(this.刷新toolStripMenuItem4_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(252, 6);
+            // 
+            // 删除toolStripMenuItem5
+            // 
+            this.删除toolStripMenuItem5.Name = "删除toolStripMenuItem5";
+            this.删除toolStripMenuItem5.ShortcutKeyDisplayString = "(Alt + E)";
+            this.删除toolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
+            this.删除toolStripMenuItem5.Size = new System.Drawing.Size(214, 26);
+            this.删除toolStripMenuItem5.Text = "删除";
+            this.删除toolStripMenuItem5.Click += new System.EventHandler(this.删除toolStripMenuItem5_Click);
             // 
             // lsvLocal
             // 
@@ -415,14 +446,11 @@
             this.上传ToolStripMenuItem1,
             this.toolStripSeparator1,
             this.打开ToolStripMenuItem2,
-            this.创建目录ToolStripMenuItem3,
-            this.创建目录并进入ToolStripMenuItem4,
             this.刷新ToolStripMenuItem5,
             this.toolStripSeparator2,
-            this.删除ToolStripMenuItem6,
-            this.重命名ToolStripMenuItem7});
+            this.删除ToolStripMenuItem6});
             this.cmsLocal.Name = "cmsLocal";
-            this.cmsLocal.Size = new System.Drawing.Size(256, 198);
+            this.cmsLocal.Size = new System.Drawing.Size(194, 120);
             // 
             // 上传ToolStripMenuItem1
             // 
@@ -430,67 +458,46 @@
             this.上传ToolStripMenuItem1.Name = "上传ToolStripMenuItem1";
             this.上传ToolStripMenuItem1.ShortcutKeyDisplayString = "（Alt + U)";
             this.上传ToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U)));
-            this.上传ToolStripMenuItem1.Size = new System.Drawing.Size(255, 26);
+            this.上传ToolStripMenuItem1.Size = new System.Drawing.Size(214, 26);
             this.上传ToolStripMenuItem1.Text = "上传";
             this.上传ToolStripMenuItem1.Click += new System.EventHandler(this.上传ToolStripMenuItem1_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(252, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(211, 6);
             // 
             // 打开ToolStripMenuItem2
             // 
             this.打开ToolStripMenuItem2.Name = "打开ToolStripMenuItem2";
             this.打开ToolStripMenuItem2.ShortcutKeyDisplayString = "（Alt + O)";
             this.打开ToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
-            this.打开ToolStripMenuItem2.Size = new System.Drawing.Size(255, 26);
+            this.打开ToolStripMenuItem2.Size = new System.Drawing.Size(214, 26);
             this.打开ToolStripMenuItem2.Text = "打开";
-            // 
-            // 创建目录ToolStripMenuItem3
-            // 
-            this.创建目录ToolStripMenuItem3.Name = "创建目录ToolStripMenuItem3";
-            this.创建目录ToolStripMenuItem3.ShortcutKeyDisplayString = "(Alt + C)";
-            this.创建目录ToolStripMenuItem3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.创建目录ToolStripMenuItem3.Size = new System.Drawing.Size(255, 26);
-            this.创建目录ToolStripMenuItem3.Text = "创建目录";
-            // 
-            // 创建目录并进入ToolStripMenuItem4
-            // 
-            this.创建目录并进入ToolStripMenuItem4.Name = "创建目录并进入ToolStripMenuItem4";
-            this.创建目录并进入ToolStripMenuItem4.ShortcutKeyDisplayString = "(Alt + Y)";
-            this.创建目录并进入ToolStripMenuItem4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Y)));
-            this.创建目录并进入ToolStripMenuItem4.Size = new System.Drawing.Size(255, 26);
-            this.创建目录并进入ToolStripMenuItem4.Text = "创建目录并进入";
+            this.打开ToolStripMenuItem2.Click += new System.EventHandler(this.打开ToolStripMenuItem2_Click);
             // 
             // 刷新ToolStripMenuItem5
             // 
             this.刷新ToolStripMenuItem5.Name = "刷新ToolStripMenuItem5";
             this.刷新ToolStripMenuItem5.ShortcutKeyDisplayString = "(Alt + F)";
             this.刷新ToolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.刷新ToolStripMenuItem5.Size = new System.Drawing.Size(255, 26);
+            this.刷新ToolStripMenuItem5.Size = new System.Drawing.Size(214, 26);
             this.刷新ToolStripMenuItem5.Text = "刷新";
+            this.刷新ToolStripMenuItem5.Click += new System.EventHandler(this.刷新ToolStripMenuItem5_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(252, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(211, 6);
             // 
             // 删除ToolStripMenuItem6
             // 
             this.删除ToolStripMenuItem6.Name = "删除ToolStripMenuItem6";
             this.删除ToolStripMenuItem6.ShortcutKeyDisplayString = "(Alt + D)";
             this.删除ToolStripMenuItem6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.删除ToolStripMenuItem6.Size = new System.Drawing.Size(255, 26);
+            this.删除ToolStripMenuItem6.Size = new System.Drawing.Size(214, 26);
             this.删除ToolStripMenuItem6.Text = "删除";
-            // 
-            // 重命名ToolStripMenuItem7
-            // 
-            this.重命名ToolStripMenuItem7.Name = "重命名ToolStripMenuItem7";
-            this.重命名ToolStripMenuItem7.ShortcutKeyDisplayString = "(Alt + R)";
-            this.重命名ToolStripMenuItem7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
-            this.重命名ToolStripMenuItem7.Size = new System.Drawing.Size(255, 26);
-            this.重命名ToolStripMenuItem7.Text = "重命名";
+            this.删除ToolStripMenuItem6.Click += new System.EventHandler(this.删除ToolStripMenuItem6_Click);
             // 
             // lsbStatus
             // 
@@ -555,7 +562,7 @@
             this.ckbProxy.Name = "ckbProxy";
             this.ckbProxy.Size = new System.Drawing.Size(100, 27);
             this.ckbProxy.TabIndex = 15;
-            this.ckbProxy.Text = "绕过代理";
+            this.ckbProxy.Text = "匿名登录";
             this.ckbProxy.UseVisualStyleBackColor = true;
             // 
             // ckbEncrypt
@@ -611,58 +618,6 @@
             this.lblPasswd.Size = new System.Drawing.Size(66, 27);
             this.lblPasswd.TabIndex = 12;
             this.lblPasswd.Text = "密码：";
-            // 
-            // 下载toolStripMenuItem1
-            // 
-            this.下载toolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("下载toolStripMenuItem1.Image")));
-            this.下载toolStripMenuItem1.Name = "下载toolStripMenuItem1";
-            this.下载toolStripMenuItem1.ShortcutKeyDisplayString = "(Alt + D)";
-            this.下载toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.下载toolStripMenuItem1.Size = new System.Drawing.Size(255, 26);
-            this.下载toolStripMenuItem1.Text = "下载";
-            this.下载toolStripMenuItem1.Click += new System.EventHandler(this.下载toolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(252, 6);
-            // 
-            // 创建目录toolStripMenuItem2
-            // 
-            this.创建目录toolStripMenuItem2.Name = "创建目录toolStripMenuItem2";
-            this.创建目录toolStripMenuItem2.ShortcutKeyDisplayString = "(Alt + C)";
-            this.创建目录toolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.创建目录toolStripMenuItem2.Size = new System.Drawing.Size(255, 26);
-            this.创建目录toolStripMenuItem2.Text = "创建目录";
-            // 
-            // 创建目录并进入toolStripMenuItem3
-            // 
-            this.创建目录并进入toolStripMenuItem3.Name = "创建目录并进入toolStripMenuItem3";
-            this.创建目录并进入toolStripMenuItem3.ShortcutKeyDisplayString = "(Alt + Y)";
-            this.创建目录并进入toolStripMenuItem3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Y)));
-            this.创建目录并进入toolStripMenuItem3.Size = new System.Drawing.Size(255, 26);
-            this.创建目录并进入toolStripMenuItem3.Text = "创建目录并进入";
-            // 
-            // 刷新toolStripMenuItem4
-            // 
-            this.刷新toolStripMenuItem4.Name = "刷新toolStripMenuItem4";
-            this.刷新toolStripMenuItem4.ShortcutKeyDisplayString = "(Alt + F)";
-            this.刷新toolStripMenuItem4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
-            this.刷新toolStripMenuItem4.Size = new System.Drawing.Size(255, 26);
-            this.刷新toolStripMenuItem4.Text = "刷新";
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(252, 6);
-            // 
-            // 删除toolStripMenuItem5
-            // 
-            this.删除toolStripMenuItem5.Name = "删除toolStripMenuItem5";
-            this.删除toolStripMenuItem5.ShortcutKeyDisplayString = "(Alt + E)";
-            this.删除toolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
-            this.删除toolStripMenuItem5.Size = new System.Drawing.Size(255, 26);
-            this.删除toolStripMenuItem5.Text = "删除";
             // 
             // FTP
             // 
@@ -731,18 +686,13 @@
         private System.Windows.Forms.ContextMenuStrip cmsLocal;
         private System.Windows.Forms.ToolStripMenuItem 上传ToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem 创建目录ToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem 创建目录并进入ToolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem 刷新ToolStripMenuItem5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem6;
-        private System.Windows.Forms.ToolStripMenuItem 重命名ToolStripMenuItem7;
         private System.Windows.Forms.ContextMenuStrip cmsRemote;
         private System.Windows.Forms.ToolStripMenuItem 下载toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripMenuItem 创建目录toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem 创建目录并进入toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem 刷新toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem 删除toolStripMenuItem5;

@@ -124,8 +124,14 @@ namespace FTP
         /// <param name="cmd">构造的命令</param>
         private void SendCommand(String cmd)
         {
-            cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
-            cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+            try
+            {
+                cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
+                cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
+            }catch(IOException e)
+            {
+                LogToUI(e.Message, 2);
+            }
         }
 
         /// <summary>
@@ -321,7 +327,7 @@ namespace FTP
         {
             cmd = "SIZE " + fileName + separator;
             SendCommand(cmd);
-            string ret = ShowStatus();
+            string ret = ShowStatus(false);
 
             //响应码正确
             if (ret.StartsWith("213"))
@@ -791,10 +797,12 @@ namespace FTP
             OpenDataSocket();
             cmd = "MLSD" + separator;
             SendCommand(cmd);
+            //ShowStatus(false);
             String response = ShowStatus(false);
             if (!response.StartsWith("500"))
             {
                 UpdateRemoteFileList(ParseMLSDFormat());
+                ShowStatus(false);
             }
             else
             {
@@ -997,7 +1005,7 @@ namespace FTP
                 txbRemote.Text = txbRemote.Text + "/" + lsvRemote.SelectedItems[0].Text;
                 cmd = "CWD " + txbRemote.Text + separator;
                 SendCommand(cmd);
-                String response = ShowStatus(false);
+                String response = ShowStatus(true);
                 if (!response.StartsWith("250"))
                 {
                     LogToUI("当前路径不支持切换目录");
@@ -1075,6 +1083,76 @@ namespace FTP
             // 下载
             //
             RefreshLocalFileList();
+        }
+
+        private void 打开ToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            if (lsvLocal.SelectedItems.Count != 1 || lsvLocal.SelectedItems == null) return;
+            System.Diagnostics.Process.Start(txbLocal.Text + "\\" + lsvLocal.SelectedItems[0].Text);
+        }
+
+        private void 刷新ToolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            RefreshLocalFileList();
+        }
+
+        private void 删除ToolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+            if (lsvLocal.SelectedItems.Count != 1 || lsvLocal.SelectedItems == null) return;
+            String filePath = txbLocal.Text + "\\" + lsvLocal.SelectedItems[0].Text;
+            if (File.Exists(filePath))
+            {
+                FileAttributes attr = File.GetAttributes(filePath);
+
+                if (attr == FileAttributes.Directory)
+                {
+                    Directory.Delete(filePath, true);
+                }
+                else
+                {
+                    File.Delete(filePath);
+                }
+            }
+            RefreshLocalFileList();
+        }
+
+        private void 刷新toolStripMenuItem4_Click(object sender, EventArgs e)
+        {
+            RefreshRemoteFileList();
+        }
+
+        private void 删除toolStripMenuItem5_Click(object sender, EventArgs e)
+        {
+            String separatorChar = String.Empty;
+            if (txbRemote.Text.StartsWith("/")) separatorChar = "/";
+            else if (txbRemote.Text.Contains(@"\")) separatorChar = @"\";
+            else separatorChar = "/";
+
+            if (lsvRemote.SelectedItems.Count != 1 || lsvRemote.SelectedItems == null) return;
+            if (lsvRemote.SelectedItems[0].SubItems[2].Text.Contains("Directory"))
+            {
+                cmd = "RMD " + txbRemote.Text + separatorChar + lsvRemote.SelectedItems[0].Text + separator;
+                SendCommand(cmd);
+                String ret = ShowStatus(false);
+                if (!ret.StartsWith("250"))
+                {
+                    LogToUI(ret.Substring(4, ret.Length-5) + ", please check your operation permissions");
+                    return;
+                }
+                RefreshRemoteFileList();
+            }
+            else
+            {
+                cmd = "DELE " + txbRemote.Text + separatorChar + lsvRemote.SelectedItems[0].Text + separator;
+                SendCommand(cmd);
+                String ret = ShowStatus(false);
+                if (!ret.StartsWith("250"))
+                {
+                    LogToUI(ret.Substring(4));
+                    return;
+                }
+                RefreshRemoteFileList();
+            }
         }
     }
 }
