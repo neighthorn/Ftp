@@ -246,7 +246,7 @@ namespace FTP
         {
             cmd = "PASV" + separator;
             SendCommand(cmd);
-            String ret = ShowStatus();
+            String ret = ShowStatus(false);
 
             if (ret.StartsWith("227"))
             {
@@ -784,7 +784,7 @@ namespace FTP
             lsvRemote.Columns.Add("所有者/组", 180);
         }
 
-        private void RefreshRemoteFileList(bool isDoubleClick=false)
+        private void RefreshRemoteFileList()
         {
             lsvRemote.Items.Clear();
 
@@ -800,7 +800,7 @@ namespace FTP
             {
                 // 比较复杂，待完善
                 SendCommand("SYST" + separator);
-                response = ShowStatus();
+                response = ShowStatus(false);
 
                 SendCommand("LIST" + separator);
                 ShowStatus(false);
@@ -997,8 +997,13 @@ namespace FTP
                 txbRemote.Text = txbRemote.Text + "/" + lsvRemote.SelectedItems[0].Text;
                 cmd = "CWD " + txbRemote.Text + separator;
                 SendCommand(cmd);
-                ShowStatus(false);
-                RefreshRemoteFileList(true);
+                String response = ShowStatus(false);
+                if (!response.StartsWith("250"))
+                {
+                    LogToUI("当前路径不支持切换目录");
+                    return;
+                }
+                RefreshRemoteFileList();
             }
             else
             {
@@ -1011,24 +1016,31 @@ namespace FTP
 
         private void BtnRemoteUpLevel_Click(object sender, EventArgs e)
         {
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // bug here
-            // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //if (Directory.GetParent(txbRemote.Text) is null) return;
-            //else
-            //{
-            //    txbRemote.Text = Directory.GetParent(txbRemote.Text).ToString();
-            //    cmd = "CWD " + txbRemote.Text + separator;
-            //    SendCommand(cmd);
-            //    ShowStatus(false);
-            //    RefreshRemoteFileList(true);
-            //}
+            String separatorChar = String.Empty;
+            if (txbRemote.Text.StartsWith("/")) separatorChar = "/";
+            else if (txbRemote.Text.Contains(@"\")) separatorChar = @"\";
+            else separatorChar = "/";
+            int pos = txbRemote.Text.LastIndexOf(separatorChar);
+            String parent = txbRemote.Text.Substring(0, pos);
+
+            if (parent == String.Empty) parent = "/";
+            txbRemote.Text = parent;
+            cmd = "CWD " + txbRemote.Text + separator;
+            SendCommand(cmd);
+            String response = ShowStatus(false);
+            if (!response.StartsWith("250"))
+            {
+                LogToUI("当前路径不支持切换目录");
+                return;
+            }
+            RefreshRemoteFileList();
         }
 
         private void 上传ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             List<String> selectedFilesPath = new List<string>();
             List<String> selectedFilesName = new List<string>();
+            if (!(lsvLocal.SelectedItems.Count > 0)) return;
             foreach(ListViewItem file in lsvLocal.SelectedItems)
             {
                 if (!file.SubItems[2].Text.Contains("Directory"))
@@ -1037,12 +1049,32 @@ namespace FTP
                     selectedFilesName.Add(file.Text);
                 }
             }
-            //
-            //  上传 传参selectedFiles
-            //
             UploadFiles(selectedFilesPath, selectedFilesName);
             RefreshRemoteFileList();
         }
 
+        private void 下载toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            String separatorChar = String.Empty;
+            if (txbRemote.Text.StartsWith("/")) separatorChar = "/";
+            else if (txbRemote.Text.Contains(@"\")) separatorChar = @"\";
+            else separatorChar = "/";
+
+            List<String> selectedFilesPath = new List<string>();
+            List<String> selectedFilesName = new List<string>();
+            if (!(lsvRemote.SelectedItems.Count > 0)) return;
+            foreach(ListViewItem file in lsvRemote.SelectedItems)
+            {
+                if (!file.SubItems[2].Text.Contains("Directory"))
+                {
+                    selectedFilesPath.Add(txbRemote.Text + separatorChar + file.Text);
+                    selectedFilesName.Add(file.Text);
+                }
+            }
+            // 
+            // 下载
+            //
+            RefreshLocalFileList();
+        }
     }
 }
