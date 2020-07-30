@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FTP));
             this.pnlTitle = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
@@ -42,18 +43,16 @@
             this.txbPort = new System.Windows.Forms.TextBox();
             this.pnlBody = new System.Windows.Forms.Panel();
             this.pnlList = new System.Windows.Forms.Panel();
+            this.btnRemoteUpLevel = new System.Windows.Forms.Button();
+            this.txbRemote = new System.Windows.Forms.TextBox();
             this.btnDownload = new System.Windows.Forms.Button();
             this.btnUpload = new System.Windows.Forms.Button();
             this.lblRemote = new System.Windows.Forms.Label();
-            this.btnOpen = new System.Windows.Forms.Button();
+            this.btnUpLevel = new System.Windows.Forms.Button();
             this.txbLocal = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.lsvRemote = new System.Windows.Forms.ListView();
             this.lsvLocal = new System.Windows.Forms.ListView();
-            this.文件名 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.文件大小 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.文件类型 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.上次修改 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lsbStatus = new System.Windows.Forms.ListBox();
             this.lblLocal = new System.Windows.Forms.Label();
             this.pnlConnect = new System.Windows.Forms.Panel();
@@ -64,11 +63,23 @@
             this.txbUser = new System.Windows.Forms.TextBox();
             this.lblUser = new System.Windows.Forms.Label();
             this.lblPasswd = new System.Windows.Forms.Label();
+            this.cmsLocal = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.上传ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.打开ToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.创建目录ToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.创建目录并进入ToolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.刷新ToolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.删除ToolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.重命名ToolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsRemote = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pnlTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.pnlBody.SuspendLayout();
             this.pnlList.SuspendLayout();
             this.pnlConnect.SuspendLayout();
+            this.cmsLocal.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlTitle
@@ -223,10 +234,12 @@
             // pnlList
             // 
             this.pnlList.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlList.Controls.Add(this.btnRemoteUpLevel);
+            this.pnlList.Controls.Add(this.txbRemote);
             this.pnlList.Controls.Add(this.btnDownload);
             this.pnlList.Controls.Add(this.btnUpload);
             this.pnlList.Controls.Add(this.lblRemote);
-            this.pnlList.Controls.Add(this.btnOpen);
+            this.pnlList.Controls.Add(this.btnUpLevel);
             this.pnlList.Controls.Add(this.txbLocal);
             this.pnlList.Controls.Add(this.lblStatus);
             this.pnlList.Controls.Add(this.lsvRemote);
@@ -238,6 +251,32 @@
             this.pnlList.Name = "pnlList";
             this.pnlList.Size = new System.Drawing.Size(1000, 603);
             this.pnlList.TabIndex = 21;
+            // 
+            // btnRemoteUpLevel
+            // 
+            this.btnRemoteUpLevel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnRemoteUpLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.btnRemoteUpLevel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnRemoteUpLevel.BackgroundImage")));
+            this.btnRemoteUpLevel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnRemoteUpLevel.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnRemoteUpLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRemoteUpLevel.Location = new System.Drawing.Point(929, 15);
+            this.btnRemoteUpLevel.Name = "btnRemoteUpLevel";
+            this.btnRemoteUpLevel.Size = new System.Drawing.Size(46, 28);
+            this.btnRemoteUpLevel.TabIndex = 23;
+            this.btnRemoteUpLevel.UseVisualStyleBackColor = false;
+            this.btnRemoteUpLevel.Click += new System.EventHandler(this.BtnRemoteUpLevel_Click);
+            // 
+            // txbRemote
+            // 
+            this.txbRemote.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbRemote.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txbRemote.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txbRemote.Location = new System.Drawing.Point(571, 18);
+            this.txbRemote.Name = "txbRemote";
+            this.txbRemote.Size = new System.Drawing.Size(350, 22);
+            this.txbRemote.TabIndex = 24;
             // 
             // btnDownload
             // 
@@ -280,19 +319,20 @@
             this.lblRemote.TabIndex = 20;
             this.lblRemote.Text = "remote:";
             // 
-            // btnOpen
+            // btnUpLevel
             // 
-            this.btnOpen.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.btnOpen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.btnOpen.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnOpen.BackgroundImage")));
-            this.btnOpen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnOpen.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.btnOpen.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpen.Location = new System.Drawing.Point(427, 15);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(46, 28);
-            this.btnOpen.TabIndex = 17;
-            this.btnOpen.UseVisualStyleBackColor = false;
+            this.btnUpLevel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnUpLevel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.btnUpLevel.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnUpLevel.BackgroundImage")));
+            this.btnUpLevel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnUpLevel.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnUpLevel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUpLevel.Location = new System.Drawing.Point(430, 15);
+            this.btnUpLevel.Name = "btnUpLevel";
+            this.btnUpLevel.Size = new System.Drawing.Size(46, 28);
+            this.btnUpLevel.TabIndex = 17;
+            this.btnUpLevel.UseVisualStyleBackColor = false;
+            this.btnUpLevel.Click += new System.EventHandler(this.BtnUpLevel_Click);
             // 
             // txbLocal
             // 
@@ -300,11 +340,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txbLocal.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txbLocal.Font = new System.Drawing.Font("Microsoft YaHei UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txbLocal.Location = new System.Drawing.Point(109, 15);
-            this.txbLocal.Multiline = true;
+            this.txbLocal.Location = new System.Drawing.Point(109, 18);
             this.txbLocal.Name = "txbLocal";
-            this.txbLocal.Size = new System.Drawing.Size(312, 28);
+            this.txbLocal.Size = new System.Drawing.Size(312, 22);
             this.txbLocal.TabIndex = 17;
+            this.txbLocal.Click += new System.EventHandler(this.TxbLocal_Click);
             // 
             // lblStatus
             // 
@@ -319,47 +359,35 @@
             // lsvRemote
             // 
             this.lsvRemote.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lsvRemote.ContextMenuStrip = this.cmsRemote;
+            this.lsvRemote.FullRowSelect = true;
             this.lsvRemote.HideSelection = false;
             this.lsvRemote.Location = new System.Drawing.Point(494, 52);
             this.lsvRemote.Name = "lsvRemote";
             this.lsvRemote.Size = new System.Drawing.Size(481, 321);
             this.lsvRemote.TabIndex = 2;
             this.lsvRemote.UseCompatibleStateImageBehavior = false;
+            this.lsvRemote.View = System.Windows.Forms.View.Details;
+            this.lsvRemote.DoubleClick += new System.EventHandler(this.LsvRemote_DoubleClick);
             // 
             // lsvLocal
             // 
             this.lsvLocal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lsvLocal.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.文件名,
-            this.文件大小,
-            this.文件类型,
-            this.上次修改});
+            this.lsvLocal.ContextMenuStrip = this.cmsLocal;
+            this.lsvLocal.FullRowSelect = true;
             this.lsvLocal.HideSelection = false;
             this.lsvLocal.Location = new System.Drawing.Point(24, 52);
             this.lsvLocal.Name = "lsvLocal";
             this.lsvLocal.Size = new System.Drawing.Size(449, 321);
             this.lsvLocal.TabIndex = 1;
             this.lsvLocal.UseCompatibleStateImageBehavior = false;
-            // 
-            // 文件名
-            // 
-            this.文件名.Width = 146;
-            // 
-            // 文件大小
-            // 
-            this.文件大小.Width = 97;
-            // 
-            // 文件类型
-            // 
-            this.文件类型.Width = 97;
-            // 
-            // 上次修改
-            // 
-            this.上次修改.Width = 146;
+            this.lsvLocal.View = System.Windows.Forms.View.Details;
+            this.lsvLocal.DoubleClick += new System.EventHandler(this.LsvLocal_DoubleClick);
             // 
             // lsbStatus
             // 
             this.lsbStatus.FormattingEnabled = true;
+            this.lsbStatus.HorizontalScrollbar = true;
             this.lsbStatus.ItemHeight = 23;
             this.lsbStatus.Location = new System.Drawing.Point(24, 418);
             this.lsbStatus.Name = "lsbStatus";
@@ -476,6 +504,98 @@
             this.lblPasswd.TabIndex = 12;
             this.lblPasswd.Text = "密码：";
             // 
+            // cmsLocal
+            // 
+            this.cmsLocal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.cmsLocal.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmsLocal.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.上传ToolStripMenuItem1,
+            this.toolStripSeparator1,
+            this.打开ToolStripMenuItem2,
+            this.创建目录ToolStripMenuItem3,
+            this.创建目录并进入ToolStripMenuItem4,
+            this.刷新ToolStripMenuItem5,
+            this.toolStripSeparator2,
+            this.删除ToolStripMenuItem6,
+            this.重命名ToolStripMenuItem7});
+            this.cmsLocal.Name = "cmsLocal";
+            this.cmsLocal.Size = new System.Drawing.Size(256, 198);
+            // 
+            // 上传ToolStripMenuItem1
+            // 
+            this.上传ToolStripMenuItem1.Image = ((System.Drawing.Image)(resources.GetObject("上传ToolStripMenuItem1.Image")));
+            this.上传ToolStripMenuItem1.Name = "上传ToolStripMenuItem1";
+            this.上传ToolStripMenuItem1.ShortcutKeyDisplayString = "（Alt + U)";
+            this.上传ToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.U)));
+            this.上传ToolStripMenuItem1.Size = new System.Drawing.Size(255, 26);
+            this.上传ToolStripMenuItem1.Text = "上传";
+            this.上传ToolStripMenuItem1.Click += new System.EventHandler(this.上传ToolStripMenuItem1_Click);
+            // 
+            // 打开ToolStripMenuItem2
+            // 
+            this.打开ToolStripMenuItem2.Name = "打开ToolStripMenuItem2";
+            this.打开ToolStripMenuItem2.ShortcutKeyDisplayString = "（Alt + O)";
+            this.打开ToolStripMenuItem2.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.O)));
+            this.打开ToolStripMenuItem2.Size = new System.Drawing.Size(255, 26);
+            this.打开ToolStripMenuItem2.Text = "打开";
+            // 
+            // 创建目录ToolStripMenuItem3
+            // 
+            this.创建目录ToolStripMenuItem3.Name = "创建目录ToolStripMenuItem3";
+            this.创建目录ToolStripMenuItem3.ShortcutKeyDisplayString = "(Alt + C)";
+            this.创建目录ToolStripMenuItem3.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.创建目录ToolStripMenuItem3.Size = new System.Drawing.Size(255, 26);
+            this.创建目录ToolStripMenuItem3.Text = "创建目录";
+            // 
+            // 创建目录并进入ToolStripMenuItem4
+            // 
+            this.创建目录并进入ToolStripMenuItem4.Name = "创建目录并进入ToolStripMenuItem4";
+            this.创建目录并进入ToolStripMenuItem4.ShortcutKeyDisplayString = "(Alt + Y)";
+            this.创建目录并进入ToolStripMenuItem4.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Y)));
+            this.创建目录并进入ToolStripMenuItem4.Size = new System.Drawing.Size(255, 26);
+            this.创建目录并进入ToolStripMenuItem4.Text = "创建目录并进入";
+            // 
+            // 刷新ToolStripMenuItem5
+            // 
+            this.刷新ToolStripMenuItem5.Name = "刷新ToolStripMenuItem5";
+            this.刷新ToolStripMenuItem5.ShortcutKeyDisplayString = "(Alt + F)";
+            this.刷新ToolStripMenuItem5.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F)));
+            this.刷新ToolStripMenuItem5.Size = new System.Drawing.Size(255, 26);
+            this.刷新ToolStripMenuItem5.Text = "刷新";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(252, 6);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(252, 6);
+            // 
+            // 删除ToolStripMenuItem6
+            // 
+            this.删除ToolStripMenuItem6.Name = "删除ToolStripMenuItem6";
+            this.删除ToolStripMenuItem6.ShortcutKeyDisplayString = "(Alt + D)";
+            this.删除ToolStripMenuItem6.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+            this.删除ToolStripMenuItem6.Size = new System.Drawing.Size(255, 26);
+            this.删除ToolStripMenuItem6.Text = "删除";
+            // 
+            // 重命名ToolStripMenuItem7
+            // 
+            this.重命名ToolStripMenuItem7.Name = "重命名ToolStripMenuItem7";
+            this.重命名ToolStripMenuItem7.ShortcutKeyDisplayString = "(Alt + R)";
+            this.重命名ToolStripMenuItem7.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.R)));
+            this.重命名ToolStripMenuItem7.Size = new System.Drawing.Size(255, 26);
+            this.重命名ToolStripMenuItem7.Text = "重命名";
+            // 
+            // cmsRemote
+            // 
+            this.cmsRemote.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.cmsRemote.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmsRemote.Name = "cmsRemote";
+            this.cmsRemote.Size = new System.Drawing.Size(61, 4);
+            // 
             // FTP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 23F);
@@ -491,7 +611,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.Name = "FTP";
-            this.Text = "Form1";
+            this.Load += new System.EventHandler(this.FTP_Load);
             this.pnlTitle.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.pnlBody.ResumeLayout(false);
@@ -499,6 +619,7 @@
             this.pnlList.PerformLayout();
             this.pnlConnect.ResumeLayout(false);
             this.pnlConnect.PerformLayout();
+            this.cmsLocal.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -530,16 +651,25 @@
         private System.Windows.Forms.ListView lsvLocal;
         private System.Windows.Forms.ListBox lsbStatus;
         private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.ColumnHeader 文件名;
-        private System.Windows.Forms.ColumnHeader 文件大小;
-        private System.Windows.Forms.ColumnHeader 文件类型;
-        private System.Windows.Forms.ColumnHeader 上次修改;
         private System.Windows.Forms.Label lblRemote;
-        private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.Button btnUpLevel;
         private System.Windows.Forms.TextBox txbLocal;
         private System.Windows.Forms.Label lblLocal;
         private System.Windows.Forms.Button btnUpload;
         private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.Button btnRemoteUpLevel;
+        private System.Windows.Forms.TextBox txbRemote;
+        private System.Windows.Forms.ContextMenuStrip cmsLocal;
+        private System.Windows.Forms.ToolStripMenuItem 上传ToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem 打开ToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem 创建目录ToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem 创建目录并进入ToolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem 刷新ToolStripMenuItem5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem 重命名ToolStripMenuItem7;
+        private System.Windows.Forms.ContextMenuStrip cmsRemote;
     }
 }
 
