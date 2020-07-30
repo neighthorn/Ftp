@@ -320,7 +320,7 @@ namespace FTP
         private long GetFtpFileSize(string fileName)
         {
             cmd = "SIZE " + fileName + separator;
-            SendCommand(cmd);
+            SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
             string ret = ShowStatus();
 
             //响应码正确
@@ -400,7 +400,7 @@ namespace FTP
             if (fileSizeInFtp == -1)//如果文件还未被上传则直接上传
             {
                 cmd = "STOR " + fileName + separator;
-                SendCommand(cmd);
+                SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
                 string ret = ShowStatus();
 
                 using(FileStream f=new FileStream(filePath, FileMode.Open))
@@ -463,7 +463,7 @@ namespace FTP
             if (fileSizeInLocal == -1)//如果本地不存在文件
             {
                 cmd = "RETR " + fileName + separator;
-                SendCommand(cmd);
+                SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
                 string ret = ShowStatus();
 
                 using(FileStream f=new FileStream(filePath, FileMode.Create))
@@ -516,12 +516,12 @@ namespace FTP
 
             //申请断点续传
             cmd = "REST " + breakPoint.ToString() + separator;
-            SendCommand(cmd);
+            SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
             ShowStatus();
 
             //申请上传文件
             cmd = "STOR " + fileName + separator;
-            SendCommand(cmd);
+            SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
             ShowStatus();
 
             using(FileStream f=new FileStream(filePath, FileMode.Open))
@@ -556,11 +556,11 @@ namespace FTP
             OpenDataSocket();//发送时间待定
 
             cmd = "REST " + breakPoint.ToString() + separator;
-            SendCommand(cmd);
+            SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
             ShowStatus();
 
             cmd = "RETR " + fileName + separator;
-            SendCommand(cmd);
+            SendCommand(Encoding.UTF8.GetBytes(cmd).ToString());
             ShowStatus();
 
             using(FileStream f=new FileStream(filePath, FileMode.Open))
