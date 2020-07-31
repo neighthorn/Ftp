@@ -126,7 +126,7 @@ namespace FTP
         {
             try
             {
-                cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
+                cmdBytes = Encoding.UTF8.GetBytes(cmd.ToCharArray());
                 cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
             }catch(IOException e)
             {
