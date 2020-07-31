@@ -124,7 +124,7 @@ namespace FTP
         /// <param name="cmd">构造的命令</param>
         private void SendCommand(String cmd)
         {
-            cmdBytes = Encoding.ASCII.GetBytes(cmd.ToCharArray());
+            cmdBytes = Encoding.UTF8.GetBytes(cmd.ToCharArray());
             cmdSw.Write(cmdBytes, 0, cmdBytes.Length);
         }
 
