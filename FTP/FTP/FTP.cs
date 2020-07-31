@@ -490,6 +490,7 @@ namespace FTP
                     }
                 }
                 CloseDataSocket();
+                ShowStatus();
                 return "Finished.";
             }
             else if (fileSizeInLocal < fileSize)//考虑从断点下载
@@ -577,6 +578,7 @@ namespace FTP
                 }
             }
             CloseDataSocket();
+            ShowStatus();
             return "Finished.";
         }
 
