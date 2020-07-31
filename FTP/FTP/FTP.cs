@@ -407,7 +407,7 @@ namespace FTP
             {
                 cmd = "STOR " + fileName + separator;
                 SendCommand(cmd);
-                string ret = ShowStatus();
+                ShowStatus();
 
                 using(FileStream f=new FileStream(filePath, FileMode.Open))
                 {
@@ -438,6 +438,7 @@ namespace FTP
                     }
                 }
                 CloseDataSocket();
+                ShowStatus();
                 return "Finished.";
             }
             else if (fileSizeInFtp < fileSize)//判断是否需要从断点上传
@@ -548,6 +549,7 @@ namespace FTP
                 }
             }
             CloseDataSocket();
+            ShowStatus();
             return "Finished.";
         }
 
@@ -1063,11 +1065,6 @@ namespace FTP
 
         private void 下载toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            String separatorChar = String.Empty;
-            if (txbRemote.Text.StartsWith("/")) separatorChar = "/";
-            else if (txbRemote.Text.Contains(@"\")) separatorChar = @"\";
-            else separatorChar = "/";
-
             List<String> selectedFilesPath = new List<string>();
             List<String> selectedFilesName = new List<string>();
             if (!(lsvRemote.SelectedItems.Count > 0)) return;
@@ -1075,13 +1072,14 @@ namespace FTP
             {
                 if (!file.SubItems[2].Text.Contains("Directory"))
                 {
-                    selectedFilesPath.Add(txbRemote.Text + separatorChar + file.Text);
+                    selectedFilesPath.Add(txbLocal.Text + "\\" + file.Text);
                     selectedFilesName.Add(file.Text);
                 }
             }
             // 
             // 下载
             //
+            DownloadFiles(selectedFilesPath, selectedFilesName);
             RefreshLocalFileList();
         }
 
